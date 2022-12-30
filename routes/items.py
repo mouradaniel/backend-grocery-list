@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request
 from db import Db
+from bson import ObjectId
 
 itemsRoute = Blueprint('transfer', __name__)
 
@@ -30,3 +31,10 @@ def list():
     items.append(item)
 
   return jsonify(items)
+
+@itemsRoute.route('/items/<id>', methods=['GET'])
+def item(id):
+  item = db.list.find_one({"_id": ObjectId(id)})
+  item['_id'] = str(item['_id'])
+
+  return jsonify(item)
