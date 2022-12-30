@@ -38,3 +38,18 @@ def item(id):
   item['_id'] = str(item['_id'])
 
   return jsonify(item)
+
+@itemsRoute.route('/items/<id>', methods=['PATCH'])
+def update(id):
+  payload = request.json
+
+  item = {
+    "title": payload.get('title'), 
+    "quantity": payload.get('quantity'), 
+    "observation": payload.get('observation')
+  }
+
+  item = db.list.update_one({"_id": ObjectId(id)}, item)
+  item['_id'] = str(item['_id'])
+
+  return jsonify(item)
