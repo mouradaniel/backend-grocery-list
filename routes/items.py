@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, Response
 from db import Db
 from bson import ObjectId
 
@@ -53,3 +53,10 @@ def update(id):
   item['_id'] = str(item['_id'])
 
   return jsonify(item)
+
+@itemsRoute.route('/items/<id>', methods=["DELETE"])
+def remove(id):
+  item = db.list.find_one_and_delete({"_id": ObjectId(id)})
+  item['_id'] = str(item['_id'])
+
+  return Response(status=201)
