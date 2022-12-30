@@ -19,3 +19,14 @@ def create():
   item['_id'] = str(item['_id'])
 
   return jsonify(item)
+
+@itemsRoute.route('/items', methods=['GET'])
+def list():
+  list = db.list.find()
+  items = []
+
+  for item in list:
+    item['_id'] = str(item['_id'])
+    items.append(item)
+
+  return jsonify(items)
